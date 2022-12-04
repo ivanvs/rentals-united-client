@@ -5,12 +5,20 @@ import { GetAdditionalFeeDiscriminatorTypes } from "./requests/get.additional.fe
 import { GetAmenities } from "./requests/get.amenities";
 import { GetAvailabilityCalendar } from "./requests/get.availability.calendar";
 import { GetCompositionRooms } from "./requests/get.composition.rooms";
+import { GetLocationDetails } from "./requests/get.location.details";
 import { GetLocations } from "./requests/get.locations";
 import { GetMinStay } from "./requests/get.min.stay";
 import { GetProperty } from "./requests/get.property";
 import { GetPropertyPrice } from "./requests/get.property.price";
 import { GetRoomAmenities } from "./requests/get.room.amenities";
 import { ListLanguages } from "./requests/pull.list.languages";
+import { ArchiveUser } from "./requests/users/archive.user";
+import { CreateUserProps, CreateUser } from "./requests/users/create.user";
+import { GetUsers } from "./requests/users/get.users";
+import {
+  UpdateCompanyDetails,
+  UpdateCompanyDetailsProps,
+} from "./requests/users/update.company.details";
 import { parseXml2Json } from "./util/parse.xml";
 
 export class RUClient {
@@ -30,6 +38,30 @@ export class RUClient {
 
   async getLocations() {
     return this.sendRq(new GetLocations(this.username, this.password));
+  }
+
+  async getLocationDetails(locationId: number) {
+    return this.sendRq(
+      new GetLocationDetails(this.username, this.password, locationId)
+    );
+  }
+
+  async getUsers() {
+    return this.sendRq(new GetUsers(this.username, this.password));
+  }
+
+  async createUser(props: CreateUserProps) {
+    return this.sendRq(new CreateUser(this.username, this.password, props));
+  }
+
+  async updateCompanyDetails(props: UpdateCompanyDetailsProps) {
+    return this.sendRq(
+      new UpdateCompanyDetails(this.username, this.password, props)
+    );
+  }
+
+  async archiveUser() {
+    return this.sendRq(new ArchiveUser(this.username, this.password));
   }
 
   async getAdditionalFeeTypes() {
