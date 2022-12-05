@@ -24,6 +24,7 @@ import {
   UpdateCompanyDetailsProps,
 } from "./requests/users/update.company.details";
 import { parseXml2Json } from "./util/parse.xml";
+import { SetMinStay, SetMinStayProps } from "./requests/min.stay/set.min.stay";
 
 export class RUClient {
   private client: HttpClient;
@@ -114,6 +115,10 @@ export class RUClient {
     return this.sendRq(
       new GetMinStay(this.username, this.password, propertyId, dateFrom, dateTo)
     );
+  }
+
+  async setMinStay(options: SetMinStayProps) {
+    return this.sendRq(new SetMinStay(this.username, this.password, options));
   }
 
   async getAvailabilityCalendar(
