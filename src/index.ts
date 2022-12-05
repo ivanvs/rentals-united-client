@@ -7,10 +7,14 @@ import { GetAvailabilityCalendar } from "./requests/get.availability.calendar";
 import { GetCompositionRooms } from "./requests/get.composition.rooms";
 import { GetLocationDetails } from "./requests/get.location.details";
 import { GetLocations } from "./requests/get.locations";
-import { GetMinStay } from "./requests/get.min.stay";
+import { GetMinStay } from "./requests/min.stay/get.min.stay";
 import { GetProperty } from "./requests/get.property";
-import { GetPropertyPrice } from "./requests/get.property.price";
+import { GetPropertyPrice } from "./requests/price/get.property.price";
 import { GetRoomAmenities } from "./requests/get.room.amenities";
+import {
+  SetPropertyPrice,
+  SetPropertyPriceProps,
+} from "./requests/price/set.property.price";
 import { ListLanguages } from "./requests/pull.list.languages";
 import { ArchiveUser } from "./requests/users/archive.user";
 import { CreateUserProps, CreateUser } from "./requests/users/create.user";
@@ -100,6 +104,12 @@ export class RUClient {
     );
   }
 
+  async setPropertyPrice(options: SetPropertyPriceProps) {
+    return this.sendRq(
+      new SetPropertyPrice(this.username, this.password, options)
+    );
+  }
+
   async getMinStay(propertyId: number, dateFrom: string, dateTo: string) {
     return this.sendRq(
       new GetMinStay(this.username, this.password, propertyId, dateFrom, dateTo)
@@ -123,7 +133,9 @@ export class RUClient {
   }
 
   private async sendRq(request: any) {
-    const result = await this.client.send(json2xml(request));
+    const result = await this.client.send(
+      json2xml(request, { attributes_key: "attr" })
+    );
 
     const response = await parseXml2Json(result.data);
     return response;

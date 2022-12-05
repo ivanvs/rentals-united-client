@@ -1,7 +1,7 @@
-import { Authentication } from "./authentication";
+import { Authentication } from "../authentication";
 
-export class GetMinStay {
-  private Pull_ListPropertyMinStay_RQ: any;
+export class GetPropertyPrice {
+  private Pull_GetPropertyPrice_RQ: any;
 
   public constructor(
     username: string,
@@ -10,7 +10,7 @@ export class GetMinStay {
     dateFrom: string,
     dateTo: string
   ) {
-    this.Pull_ListPropertyMinStay_RQ = {
+    this.Pull_GetPropertyPrice_RQ = {
       Authentication: new Authentication(username, password),
       PropertyID: propertyId,
       DateFrom: dateFrom,
